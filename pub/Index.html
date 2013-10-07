@@ -1,0 +1,49 @@
+<html>
+	<head>
+	<title>Team Visualization</title>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	</head>
+	<script>
+	  	document.addEventListener("DOMContentLoaded", function(event) {
+	    	d3.json("http://127.0.0.1:3000/RetrieveTeamPerformance",function(error,json){
+		   		if(error){alert(error)}
+		   		//Filtrar Datos	
+		   		var teamPerformance=json.teamPerformance;
+		   	    var names = teamPerformance.map(function(d,i){
+		   	    	return d.name;
+		   	    })
+		   	    var amountSold = teamPerformance.map(function(d,i){
+		   	    	var amt;
+		   	    	for (var i=0;i<d.data.length;i++){
+		   	    		//Despues date=variable.
+		   	    		if (d.data[i].date="2013-12-31T23:15:30Z"){
+		   	    			amt=d.data[i].amount;
+		   	    		}
+		   	    	}
+		   	    	return amt;
+		   	    })
+		   	    var goals = teamPerformance.map(function(d,i){
+		   	    	return d.finalTarget;
+
+		   	    })
+		   	    /* Para Debug */
+		   	    this.amountSold=amountSold;
+		   	    this.names=names
+		   	    this.goals=goals
+                //
+                scaley = d3.scale.linear().domain([0,d3.max(goals)]).range([0,90])
+                d3.select("svg")
+	  		});
+	    });
+	</script>
+	<body>
+		<div id="app">
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" id="viz">
+				<image x="0" y="0" width="100%" height="100%" xlink:href="assets/background-sky.svg" />
+				<text x="15" y="15" fill="red">Team Performance</text>
+			</svg>
+		</div>
+	</body>
+<html>	
+			
+		
